@@ -15,7 +15,7 @@
             --neon-cyan: #00f7ff;
             --neon-dim: rgba(0, 247, 255, 0.3);
             --bg-deep: #020406;
-            --panel-bg: rgba(5, 10, 15, 0.85); 
+            --panel-bg: rgba(5, 10, 15, 0.90); 
             --font-head: 'Orbitron', sans-serif;
             --font-body: 'Rajdhani', sans-serif;
         }
@@ -26,18 +26,19 @@
             background-color: var(--bg-deep);
             color: #fff;
             font-family: var(--font-body);
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            padding-bottom: 50px;
         }
 
-        /* --- 2. BACKGROUND ANIMATION (NUMERIC RAIN) --- */
+        /* --- 2. BACKGROUND ANIMATION --- */
         #matrix-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; 
+            z-index: 0; pointer-events: none;
         }
 
         /* --- 3. TITLE --- */
@@ -47,9 +48,11 @@
             font-weight: 900;
             color: #fff;
             letter-spacing: 8px;
+            margin-top: 40px;
             margin-bottom: 30px;
             text-shadow: 0 0 20px var(--neon-cyan);
             z-index: 10; text-transform: uppercase;
+            text-align: center;
         }
 
         /* --- 4. LAYOUT --- */
@@ -58,7 +61,7 @@
             grid-template-columns: 1fr 1.8fr;
             gap: 25px;
             width: 90%; max-width: 1400px;
-            height: 75vh;
+            height: auto;
             position: relative;
             z-index: 10;
         }
@@ -71,11 +74,7 @@
             display: flex; flex-direction: column;
             position: relative;
             backdrop-filter: blur(12px); 
-            clip-path: polygon(
-                20px 0, 100% 0, 
-                100% calc(100% - 20px), calc(100% - 20px) 100%, 
-                0 100%, 0 20px
-            );
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
             box-shadow: 0 0 30px rgba(0, 247, 255, 0.05);
         }
 
@@ -112,10 +111,8 @@
             box-shadow: 0 0 15px rgba(0, 247, 255, 0.2);
         }
 
-        /* --- CUSTOM CYBER DROPDOWN --- */
-        .custom-select {
-            position: relative; user-select: none; width: 100%;
-        }
+        /* DROPDOWN */
+        .custom-select { position: relative; user-select: none; width: 100%; }
         .select-trigger {
             position: relative; display: flex; align-items: center; justify-content: space-between;
             padding: 14px; font-size: 1.1rem; color: #fff;
@@ -127,23 +124,22 @@
             border: 1px solid var(--neon-cyan); border-top: 0;
             background: rgba(10, 15, 20, 0.98);
             transition: 0.3s; opacity: 0; visibility: hidden; pointer-events: none;
-            z-index: 100; max-height: 250px; overflow-y: auto; /* Scrollable list */
+            z-index: 100; max-height: 250px; overflow-y: auto;
         }
         .custom-select.open .options-list { opacity: 1; visibility: visible; pointer-events: all; }
         
-        /* Scrollbar for Dropdown */
         .options-list::-webkit-scrollbar { width: 5px; background: #000; }
         .options-list::-webkit-scrollbar-thumb { background: var(--neon-cyan); }
 
         .option {
             padding: 12px 15px; font-size: 0.95rem; color: #fff; cursor: pointer;
-            border-bottom: 1px solid rgba(255,255,255,0.1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         .option:hover { background: rgba(0, 247, 255, 0.15); color: var(--neon-cyan); }
 
         /* --- 7. PRICING CARDS --- */
         .pricing-grid {
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; height: 100%;
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; width: 100%;
         }
 
         .price-card {
@@ -168,17 +164,8 @@
         .features li::before { content: '►'; color: var(--neon-cyan); margin-right: 8px; font-size: 0.6rem;}
 
         /* --- 8. BUTTONS --- */
-        .btn-main {
-            width: 100%; padding: 15px; margin-top: 20px;
-            background: var(--neon-cyan); color: #000; border: none;
-            font-family: var(--font-head); font-weight: 700; letter-spacing: 2px;
-            cursor: pointer; transition: 0.3s;
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-        }
-        .btn-main:hover { background: #fff; box-shadow: 0 0 30px var(--neon-cyan); }
-
         .btn-outline {
-            width: 100%; padding: 15px; margin-top: auto;
+            width: 100%; padding: 15px; margin-top: 20px;
             background: transparent; border: 1px solid var(--neon-cyan); color: var(--neon-cyan);
             font-family: var(--font-head); font-weight: 700; letter-spacing: 2px;
             cursor: pointer; transition: 0.3s;
@@ -187,20 +174,33 @@
 
         .redeem-section { margin-top: 15px; }
         .redeem-toggle {
-            background: none; border: none; color: #fff; text-decoration: underline;
-            cursor: pointer; font-family: var(--font-head); letter-spacing: 1px;
+            background: none; border: 1px solid #fff; color: #fff; padding: 12px; width: 100%;
+            cursor: pointer; font-family: var(--font-head); letter-spacing: 1px; transition: 0.3s;
         }
+        .redeem-toggle:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 247, 255, 0.2); }
+        
         .redeem-input-group {
             display: none; gap: 10px; margin-top: 10px;
         }
         .btn-verify {
             background: var(--neon-cyan); color: #000; border: none; padding: 0 20px;
-            font-family: var(--font-head); font-weight: 700; cursor: pointer;
+            font-family: var(--font-head); font-weight: 700; cursor: pointer; transition: 0.3s;
         }
+        .btn-verify:hover { background: #fff; box-shadow: 0 0 20px var(--neon-cyan); }
 
         /* --- UTILS --- */
         .locked-panel { opacity: 0.4; pointer-events: none; filter: grayscale(100%); transition: 0.5s; }
         .unlocked-panel { opacity: 1; pointer-events: all; filter: grayscale(0%); transition: 0.5s; }
+
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 900px) {
+            .main-title { font-size: 2rem; margin-top: 20px; }
+            .cyber-grid { grid-template-columns: 1fr; width: 95%; gap: 20px; }
+            .tech-panel { padding: 20px; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); }
+            .pricing-grid { grid-template-columns: 1fr; gap: 15px; }
+            .redeem-input-group { flex-direction: column; }
+            .btn-verify { width: 100%; padding: 15px; }
+        }
 
     </style>
 </head>
@@ -217,16 +217,15 @@
             
             <div class="input-box">
                 <label class="tech-label">USERNAME</label>
-                <input type="text" id="uid" class="tech-input" value="">
+                <input type="text" id="uid" class="tech-input" placeholder="ENTER USERNAME">
             </div>
             <div class="input-box">
                 <label class="tech-label">EMAIL PROTOCOL</label>
-                <input type="text" id="email" class="tech-input" value="">
+                <input type="text" id="email" class="tech-input" placeholder="ENTER EMAIL ADDRESS">
             </div>
             
             <div class="input-box" style="flex-grow: 1;">
                 <label class="tech-label">TARGET CATEGORY</label>
-                
                 <div class="custom-select">
                     <div class="select-trigger"><span>Select Sector...</span> ▾</div>
                     <div class="options-list">
@@ -259,7 +258,7 @@
             <div class="panel-header">ACCESS GATEWAY <span class="status-text">// LOCKED</span></div>
             
             <div class="pricing-grid">
-                <div class="price-card" onclick="selectCard(this)">
+                <div class="price-card" onclick="selectCard(this, 'T3')">
                     <div class="card-title">NODE ACCESS (T3)</div>
                     <div class="card-price">₹150<span>/mo</span></div>
                     <div style="color:#0aff0a; font-size:0.7rem; font-weight:700;">[LAUNCH OFFER]</div>
@@ -269,36 +268,29 @@
                         <li>Sync: Weekly</li>
                     </ul>
                 </div>
-                <div class="price-card active" onclick="selectCard(this)">
+                <div class="price-card active" onclick="selectCard(this, 'T2')">
                     <div class="card-title" style="color:var(--neon-cyan)">NETWORK CORE (T2)</div>
                     <div class="card-price">₹425<span>/mo</span></div>
                     <div style="color:var(--neon-cyan); font-size:0.7rem; font-weight:700;">[POPULAR]</div>
                     <ul class="features">
                         <li>1 High-Value Course</li>
                         <li>3 Premium Internship</li>
-                        <li>2 Global Competition</li>
-                        <li>Sync: Weekly</li>
+                        <li>2 Global Comp</li>
                     </ul>
                 </div>
-                <div class="price-card" onclick="selectCard(this)">
+                <div class="price-card" onclick="selectCard(this, 'T1')">
                     <div class="card-title">MAINFRAME (T1)</div>
                     <div class="card-price">₹599<span>/mo</span></div>
                     <ul class="features">
                         <li>All Core Features</li>
-                        <li>1 High-Value Course</li>
-                        <li>3 Premium Internship</li>
-                        <li>3 Global Competition</li>
-                        <li style="color:#0aff0a">+ Specially Curated YT Feed Related To The Chosen Target Sector </li>
+                        <li style="color:#0aff0a">+ YT Feed</li>
                         <li>Sync: 3 Days</li>
                     </ul>
                 </div>
             </div>
 
             <div class="redeem-section">
-                <button class="redeem-toggle" onclick="toggleRedeem()" id="redeem-btn" style="text-decoration:none; border: 1px solid #fff; padding: 10px; width: 100%;">
-                    GOT A UNI CODE ? CLICK TO REDEEM
-                </button>
-                
+                <button class="redeem-toggle" onclick="toggleRedeem()" id="redeem-btn">CLICK TO VERIFY ORGANIZATION ID</button>
                 <div class="redeem-input-group" id="redeem-area">
                     <input type="text" id="uni-code" class="tech-input" placeholder="ENTER 14-DIGIT ID" maxlength="14" style="font-size: 0.9rem;">
                     <button class="btn-verify" onclick="verifyCode()">VERIFY & CONNECT</button>
@@ -310,7 +302,8 @@
 
     <script>
         // --- 1. CORE VARIABLES ---
-        let selectedPlan = "NETWORK CORE (T2)";
+        // Defaults to T2 if nothing clicked, but gets updated by selectCard()
+        let selectedPlan = "NETWORK CORE (T2)"; 
         // ** YOUR SCRIPT URL **
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1Ey3O7aIfblfEE7kpibOmhDbGz4VlrIrandr5wwy_9QdlWI5KhD-NJdS57fhV900qEQ/exec'; 
 
@@ -332,7 +325,7 @@
         });
 
         window.addEventListener('click', (e) => {
-            if (!dropTrigger.contains(e.target)) dropTrigger.classList.remove('open');
+            if (!document.querySelector('.custom-select').contains(e.target)) dropTrigger.classList.remove('open');
         });
 
         // --- 3. UI FLOW ---
@@ -346,10 +339,15 @@
             document.getElementById('panel-right').classList.add('unlocked-panel');
         }
 
-        function selectCard(el) {
+        // Updated Card Selection Logic
+        function selectCard(el, planCode) {
             document.querySelectorAll('.price-card').forEach(c => c.classList.remove('active'));
             el.classList.add('active');
-            selectedPlan = el.querySelector('.card-title').innerText;
+            
+            // Get full title text
+            const title = el.querySelector('.card-title').innerText;
+            // Append internal code (T1/T2/T3) if not already in title, to ensure robustness
+            selectedPlan = title.includes(planCode) ? title : `${title} (${planCode})`;
         }
 
         function toggleRedeem() {
@@ -380,8 +378,8 @@
                 }
             })
             .catch(e => {
-                // Fallback for testing/CORS
-                console.log("Verification error (likely CORS). Attempting connection anyway.");
+                // Fallback for testing
+                console.log("CORS check failed, attempting direct submission.");
                 establishConnection(btn);
             });
         }
@@ -398,8 +396,12 @@
                 method: 'POST',
                 mode: 'no-cors',
                 body: JSON.stringify({ 
-                    action: 'submit', username: uid, email: email, 
-                    sector: sector, plan: selectedPlan, uniCode: code 
+                    action: 'submit', 
+                    username: uid, 
+                    email: email, 
+                    sector: sector, 
+                    plan: selectedPlan, // Sends the correct Plan string
+                    uniCode: code 
                 }),
                 headers: { 'Content-Type': 'application/json' }
             })
