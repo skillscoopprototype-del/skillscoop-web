@@ -15,7 +15,7 @@
             --neon-cyan: #00f7ff;
             --neon-dim: rgba(0, 247, 255, 0.3);
             --bg-deep: #020406;
-            --panel-bg: rgba(5, 10, 15, 0.90); 
+            --panel-bg: rgba(5, 10, 15, 0.85); 
             --font-head: 'Orbitron', sans-serif;
             --font-body: 'Rajdhani', sans-serif;
         }
@@ -26,21 +26,18 @@
             background-color: var(--bg-deep);
             color: #fff;
             font-family: var(--font-body);
-            /* OPTIMIZED FOR MOBILE SCROLLING */
-            min-height: 100vh; 
-            overflow-x: hidden; 
-            overflow-y: auto;
+            height: 100vh;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            padding-bottom: 50px; /* Space for scrolling */
         }
 
         /* --- 2. BACKGROUND ANIMATION (NUMERIC RAIN) --- */
         #matrix-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; pointer-events: none;
+            z-index: 0; 
         }
 
         /* --- 3. TITLE --- */
@@ -50,21 +47,18 @@
             font-weight: 900;
             color: #fff;
             letter-spacing: 8px;
-            margin-top: 40px;
             margin-bottom: 30px;
             text-shadow: 0 0 20px var(--neon-cyan);
             z-index: 10; text-transform: uppercase;
-            text-align: center;
         }
 
         /* --- 4. LAYOUT --- */
         .cyber-grid {
             display: grid;
-            grid-template-columns: 1fr 1.8fr; /* Desktop Layout */
+            grid-template-columns: 1fr 1.8fr;
             gap: 25px;
             width: 90%; max-width: 1400px;
-            /* Height auto allows content to grow on mobile */
-            height: auto; 
+            height: 75vh;
             position: relative;
             z-index: 10;
         }
@@ -118,7 +112,7 @@
             box-shadow: 0 0 15px rgba(0, 247, 255, 0.2);
         }
 
-        /* DROPDOWN */
+        /* --- CUSTOM CYBER DROPDOWN --- */
         .custom-select {
             position: relative; user-select: none; width: 100%;
         }
@@ -133,25 +127,23 @@
             border: 1px solid var(--neon-cyan); border-top: 0;
             background: rgba(10, 15, 20, 0.98);
             transition: 0.3s; opacity: 0; visibility: hidden; pointer-events: none;
-            z-index: 100; max-height: 250px; overflow-y: auto;
+            z-index: 100; max-height: 250px; overflow-y: auto; /* Scrollable list */
         }
         .custom-select.open .options-list { opacity: 1; visibility: visible; pointer-events: all; }
         
+        /* Scrollbar for Dropdown */
         .options-list::-webkit-scrollbar { width: 5px; background: #000; }
         .options-list::-webkit-scrollbar-thumb { background: var(--neon-cyan); }
 
         .option {
             padding: 12px 15px; font-size: 0.95rem; color: #fff; cursor: pointer;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .option:hover { background: rgba(0, 247, 255, 0.15); color: var(--neon-cyan); }
 
         /* --- 7. PRICING CARDS --- */
         .pricing-grid {
-            display: grid; 
-            grid-template-columns: 1fr 1fr 1fr; /* Desktop: 3 Columns */
-            gap: 15px; 
-            width: 100%;
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; height: 100%;
         }
 
         .price-card {
@@ -176,8 +168,17 @@
         .features li::before { content: '►'; color: var(--neon-cyan); margin-right: 8px; font-size: 0.6rem;}
 
         /* --- 8. BUTTONS --- */
-        .btn-outline {
+        .btn-main {
             width: 100%; padding: 15px; margin-top: 20px;
+            background: var(--neon-cyan); color: #000; border: none;
+            font-family: var(--font-head); font-weight: 700; letter-spacing: 2px;
+            cursor: pointer; transition: 0.3s;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+        .btn-main:hover { background: #fff; box-shadow: 0 0 30px var(--neon-cyan); }
+
+        .btn-outline {
+            width: 100%; padding: 15px; margin-top: auto;
             background: transparent; border: 1px solid var(--neon-cyan); color: var(--neon-cyan);
             font-family: var(--font-head); font-weight: 700; letter-spacing: 2px;
             cursor: pointer; transition: 0.3s;
@@ -186,57 +187,20 @@
 
         .redeem-section { margin-top: 15px; }
         .redeem-toggle {
-            background: none; border: 1px solid #fff; color: #fff; padding: 12px; width: 100%;
-            cursor: pointer; font-family: var(--font-head); letter-spacing: 1px; transition: 0.3s;
+            background: none; border: none; color: #fff; text-decoration: underline;
+            cursor: pointer; font-family: var(--font-head); letter-spacing: 1px;
         }
-        .redeem-toggle:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 247, 255, 0.2); }
-        
         .redeem-input-group {
             display: none; gap: 10px; margin-top: 10px;
         }
         .btn-verify {
             background: var(--neon-cyan); color: #000; border: none; padding: 0 20px;
-            font-family: var(--font-head); font-weight: 700; cursor: pointer; transition: 0.3s;
+            font-family: var(--font-head); font-weight: 700; cursor: pointer;
         }
-        .btn-verify:hover { background: #fff; box-shadow: 0 0 20px var(--neon-cyan); }
 
         /* --- UTILS --- */
         .locked-panel { opacity: 0.4; pointer-events: none; filter: grayscale(100%); transition: 0.5s; }
         .unlocked-panel { opacity: 1; pointer-events: all; filter: grayscale(0%); transition: 0.5s; }
-
-        /* --- MOBILE OPTIMIZATION --- */
-        @media (max-width: 900px) {
-            .main-title {
-                font-size: 2rem;
-                margin-top: 20px;
-            }
-            
-            .cyber-grid {
-                grid-template-columns: 1fr; /* Stack panels */
-                width: 95%;
-                gap: 20px;
-            }
-
-            .tech-panel {
-                padding: 20px;
-                /* Simplify clip-path on mobile to prevent cut-off */
-                clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-            }
-
-            .pricing-grid {
-                grid-template-columns: 1fr; /* Stack cards vertically */
-                gap: 15px;
-            }
-
-            .redeem-input-group {
-                flex-direction: column; /* Stack input and verify button */
-            }
-            
-            .btn-verify {
-                width: 100%;
-                padding: 15px;
-            }
-        }
 
     </style>
 </head>
@@ -253,11 +217,11 @@
             
             <div class="input-box">
                 <label class="tech-label">USERNAME</label>
-                <input type="text" id="uid" class="tech-input" value="Nagaiyan K">
+                <input type="text" id="uid" class="tech-input" value="">
             </div>
             <div class="input-box">
                 <label class="tech-label">EMAIL PROTOCOL</label>
-                <input type="text" id="email" class="tech-input" value="nagaiyan.k@nexus.net">
+                <input type="text" id="email" class="tech-input" value="">
             </div>
             
             <div class="input-box" style="flex-grow: 1;">
@@ -301,7 +265,7 @@
                     <div style="color:#0aff0a; font-size:0.7rem; font-weight:700;">[LAUNCH OFFER]</div>
                     <ul class="features">
                         <li>1 High-Value Course</li>
-                        <li>1 Premium Internship</li>
+                        <li>2 Premium Internship</li>
                         <li>Sync: Weekly</li>
                     </ul>
                 </div>
@@ -311,8 +275,9 @@
                     <div style="color:var(--neon-cyan); font-size:0.7rem; font-weight:700;">[POPULAR]</div>
                     <ul class="features">
                         <li>1 High-Value Course</li>
-                        <li>1 Premium Internship</li>
-                        <li>1 Global Comp</li>
+                        <li>3 Premium Internship</li>
+                        <li>2 Global Competition</li>
+                        <li>Sync: Weekly</li>
                     </ul>
                 </div>
                 <div class="price-card" onclick="selectCard(this)">
@@ -320,14 +285,20 @@
                     <div class="card-price">₹599<span>/mo</span></div>
                     <ul class="features">
                         <li>All Core Features</li>
-                        <li style="color:#0aff0a">+ YT Feed</li>
+                        <li>1 High-Value Course</li>
+                        <li>3 Premium Internship</li>
+                        <li>3 Global Competition</li>
+                        <li style="color:#0aff0a">+ Specially Curated YT Feed Related To The Chosen Target Sector </li>
                         <li>Sync: 3 Days</li>
                     </ul>
                 </div>
             </div>
 
             <div class="redeem-section">
-                <button class="redeem-toggle" onclick="toggleRedeem()" id="redeem-btn">CLICK TO VERIFY ORGANIZATION ID</button>
+                <button class="redeem-toggle" onclick="toggleRedeem()" id="redeem-btn" style="text-decoration:none; border: 1px solid #fff; padding: 10px; width: 100%;">
+                    GOT A UNI CODE ? CLICK TO REDEEM
+                </button>
+                
                 <div class="redeem-input-group" id="redeem-area">
                     <input type="text" id="uni-code" class="tech-input" placeholder="ENTER 14-DIGIT ID" maxlength="14" style="font-size: 0.9rem;">
                     <button class="btn-verify" onclick="verifyCode()">VERIFY & CONNECT</button>
@@ -340,6 +311,7 @@
     <script>
         // --- 1. CORE VARIABLES ---
         let selectedPlan = "NETWORK CORE (T2)";
+        // ** YOUR SCRIPT URL **
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1Ey3O7aIfblfEE7kpibOmhDbGz4VlrIrandr5wwy_9QdlWI5KhD-NJdS57fhV900qEQ/exec'; 
 
         // --- 2. DROPDOWN LOGIC ---
@@ -360,7 +332,7 @@
         });
 
         window.addEventListener('click', (e) => {
-            if (!document.querySelector('.custom-select').contains(e.target)) dropTrigger.classList.remove('open');
+            if (!dropTrigger.contains(e.target)) dropTrigger.classList.remove('open');
         });
 
         // --- 3. UI FLOW ---
@@ -408,7 +380,8 @@
                 }
             })
             .catch(e => {
-                console.log("CORS/Dev Mode fallback.");
+                // Fallback for testing/CORS
+                console.log("Verification error (likely CORS). Attempting connection anyway.");
                 establishConnection(btn);
             });
         }
